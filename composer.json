@@ -1,0 +1,21 @@
+{
+    "name": "bclib/php-libguides",
+    "description": "PHP access to the LibGuides v2 API",
+    "version": "0.0.1",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Florin",
+            "email": "benjamin.florin@bc.edu"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "BCLib\\LibGuides\\": "src"
+        }
+    }
+}
