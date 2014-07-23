@@ -21,4 +21,20 @@ class Guide
     public $updated;
     public $redirect_url;
     public $count_hit;
+    private $base_url;
+
+    public function __construct($base_url)
+    {
+        $this->base_url = $base_url;
+    }
+
+    /**
+     * Get a link to a guide
+     *
+     * @return string the full URL to a guide
+     */
+    public function link()
+    {
+        return $this->base_url . '/c.php?g=' . $this->id;
+    }
 }

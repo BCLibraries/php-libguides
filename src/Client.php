@@ -18,15 +18,17 @@ class Client
 
     private $site_id;
     private $base_url = 'http://lgapi.libapps.com';
+    private $site_url;
 
     /**
      * @param            $site_id
+     * @param string     $site_url
      * @param string     $version
      * @param HttpClient $http custom Guzzle client (for testing)
      *
      * @throws \Exception
      */
-    public function __construct($site_id, $version = '1.0', HttpClient $http = null)
+    public function __construct($site_id, $site_url, $version = '1.0', HttpClient $http = null)
     {
         if (is_null($http)) {
             $http = new HttpClient();
@@ -34,6 +36,7 @@ class Client
 
         $this->http = $http;
         $this->site_id = $site_id;
+        $this->site_url = $site_url;
 
         $valid_versions = ['1.0'];
         if (!in_array($version, $valid_versions)) {
@@ -56,7 +59,7 @@ class Client
     {
         $url = $this->base_url . "/guides";
         $url .= sizeof($guide_ids) ? '/' . join(',', $guide_ids) : '';
-        $guides = $this->get('BCLib\LibGuides\Guide', $url);
+        $guides = $this->get('BCLib\LibGuides\Guide', [$this->site_url], $url);
 
         if ($only_published) {
             $guides = array_filter($guides, [$this, 'guideIsPublished']);
@@ -69,13 +72,21 @@ class Client
         return $guides;
     }
 
-    private function get($extract_to, $url)
+    private function get($extract_to, array $object_params = [], $url)
     {
         $url .= "?site_id=" . $this->site_id;
         $response = $this->http->get($url)->json();
 
-        $extraction_mapper = function ($json_array) use ($extract_to) {
-            $object = new $extract_to();
+        $extraction_mapper = function ($json_array) use ($extract_to, $object_params) {
+
+            $reflect = new \ReflectionClass($extract_to);
+
+            if (sizeof($object_params) > 0) {
+                $object = $reflect->newInstanceArgs($object_params);
+            } else {
+                $object = $reflect->newInstance();
+            }
+
             foreach ($json_array as $key => $val) {
                 $object->{$key} = $val;
             }
