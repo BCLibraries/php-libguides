@@ -24,7 +24,7 @@ Makes interactions with the LibGuides v2 API using PHP 5.4.0+ even easier. There
                 }
             ],
             "require": {
-                "bclibraries/php-libguides": "0.0.1"
+                "bclibraries/php-libguides": "0.0.2"
             }
         }
    
