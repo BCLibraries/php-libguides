@@ -21,6 +21,7 @@ class Guide
     public $updated;
     public $redirect_url;
     public $count_hit;
+    public $group_id;
     private $base_url;
 
     public function __construct($base_url)
