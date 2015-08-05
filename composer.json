@@ -1,7 +1,7 @@
 {
     "name": "bclibraries/php-libguides",
     "description": "PHP access to the LibGuides v2 API",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
